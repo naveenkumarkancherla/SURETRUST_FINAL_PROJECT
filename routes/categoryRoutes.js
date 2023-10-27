@@ -9,7 +9,7 @@ import {
   getAllOrdersController,
   orderStatusController,
 } from "../controllers/authController.js";
-import {createCategoryController, updateCategoryController, categoryControlller, deleteCategoryCOntroller} from "../controllers/categoryController.js";
+import {createCategoryController, updateCategoryController, categoryControlller, deleteCategoryCOntroller, singleCategoryController} from "../controllers/categoryController.js";
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
 
 //router object
@@ -63,7 +63,7 @@ router.post(
 );
 
 //update category
-router.post(
+router.put(
   "/update-category/:id",
   requireSignIn,
   isAdmin,
@@ -71,14 +71,13 @@ router.post(
 );
 //get category
 router.get(
-  "/get-category",
-  requireSignIn,
-  isAdmin,
-  categoryControlller
+  "/get-category",categoryControlller
 );
+//single category controller
+router.get("/single-category/:slug",singleCategoryController );
 
 //delete category
-router.get(
+router.delete(
   "/delete-category/:id",
   requireSignIn,
   isAdmin,

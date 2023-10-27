@@ -78,7 +78,8 @@ const UpdateProduct = () => {
       if (data?.success) {
         toast.error(data?.message);
       } else {
-        toast.success("Product Updated Successfully");
+        toast.success("Successfully updated product")
+        alert("Product is updated");
         navigate("/dashboard/admin/products");
       }
     } catch (error) {
@@ -95,7 +96,8 @@ const UpdateProduct = () => {
       const { data } = await axios.delete(
         `http://localhost:8080/api/v1/product/delete-product/${id}`
       );
-      toast.success("Product DEleted Succefully");
+      toast.success("Product Deleted Succefully");
+      alert("Product Deleted successfully");
       navigate("/dashboard/admin/products");
     } catch (error) {
       console.log(error);

@@ -9,7 +9,7 @@ const CreateCategory = () => {
   const [categories, setCategories] = useState([]);
   const [name, setName] = useState("");
   const [visible, setVisible] = useState(false);
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState({});
   const [updatedName, setUpdatedName] = useState("");
   //handle Form
   const handleSubmit = async (e) => {
@@ -30,10 +30,11 @@ const CreateCategory = () => {
     }
   };
 
-  //get all cat
+  //get all catetogy
   const getAllCategory = async () => {
     try {
       const { data } = await axios.get("http://localhost:8080/api/v1/category/get-category");
+      toast.success("Successfully got all categories")
       if (data?.success) {
         setCategories(data?.category);
       }
@@ -51,23 +52,27 @@ const CreateCategory = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
+      console.log('Selected Category ID:', selected._id);
       const { data } = await axios.put(
         `http://localhost:8080/api/v1/category/update-category/${selected._id}`,
         { name: updatedName }
       );
       if (data?.success) {
         toast.success(`${updatedName} is updated`);
-        setSelected(null);
-        setUpdatedName("");
-        setVisible(false);
+        setVisible(false); // Close the modal
+        setSelected(null); // Clear the selected category
+        setUpdatedName(""); // Clear the updated name
         getAllCategory();
       } else {
         toast.error(data.message);
       }
     } catch (error) {
       console.log(error);
+      toast.error("Something went wrong during the update.");
     }
   };
+  
+  
   //delete category
   const handleDelete = async (pId) => {
     try {
@@ -111,31 +116,29 @@ const CreateCategory = () => {
                 </thead>
                 <tbody>
                   {categories?.map((c) => (
-                    <>
-                      <tr>
-                        <td key={c._id}>{c.name}</td>
-                        <td>
-                          <button
-                            className="btn btn-primary ms-2"
-                            onClick={() => {
-                              setVisible(true);
-                              setUpdatedName(c.name);
-                              setSelected(c);
-                            }}
-                          >
-                            Edit
-                          </button>
-                          <button
-                            className="btn btn-danger ms-2"
-                            onClick={() => {
-                              handleDelete(c._id);
-                            }}
-                          >
-                            Delete
-                          </button>
-                        </td>
-                      </tr>
-                    </>
+                    <tr key={c._id}>
+                      <td>{c.name}</td>
+                      <td>
+                        <button
+                          className="btn btn-primary ms-2"
+                          onClick={() => {
+                            setVisible(true);
+                            setUpdatedName(c.name);
+                            setSelected(c);
+                          }}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className="btn btn-danger ms-2"
+                          onClick={() => {
+                            handleDelete(c._id);
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
                   ))}
                 </tbody>
               </table>

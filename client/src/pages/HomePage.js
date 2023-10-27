@@ -20,7 +20,7 @@ const HomePage = () => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
 
-  //get all category
+  //get all cat
   const getAllCategory = async () => {
     try {
       const { data } = await axios.get("http://localhost:8080/api/v1/category/get-category");
@@ -97,7 +97,7 @@ const HomePage = () => {
   //get filterd product
   const filterProduct = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8080/api/v1/product/product-filters", {
+      const { data } = await axios.post("http://localhost:8080/api/v1/product/product-filters", {
         checked,
         radio,
       });
@@ -107,11 +107,11 @@ const HomePage = () => {
     }
   };
   return (
-    <Layout title={"All Products - Best offers "}>
+    <Layout title={"ALl Products - Best offers "}>
       {/* banner image */}
       <img
         src="/images/banner.png"
-        className="banner-img mt-2"
+        className="banner-img"
         alt="bannerimage"
         width={"100%"}
       />

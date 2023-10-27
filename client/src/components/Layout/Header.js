@@ -46,7 +46,7 @@ const Header = () => {
                   Home
                 </NavLink>
               </li>
-              <li className="nav-item dropdown">
+              {/* <li className="nav-item dropdown">
                 <Link
                   className="nav-link dropdown-toggle"
                   to={"/categories"}
@@ -71,7 +71,7 @@ const Header = () => {
                     </li>
                   ))}
                 </ul>
-              </li>
+              </li> */}
 
               {!auth?.user ? (
                 <>
