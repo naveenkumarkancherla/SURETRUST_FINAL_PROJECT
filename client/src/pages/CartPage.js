@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Layout from "./../components/Layout/Layout";
 import { useCart } from "../context/cart";
 import { useAuth } from "../context/auth";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import DropIn from "braintree-web-drop-in-react";
 // import { AiFillWarning } from "react-icons/ai";
 import axios from "axios";
@@ -62,16 +62,18 @@ const CartPage = () => {
   const handlePayment = async () => {
     try {
       setLoading(true);
-      const { nonce } = await instance.requestPaymentMethod();
-      const { data } = await axios.get("http://localhost:8080/api/v1/product/braintree/payment", {
-        nonce,
-        cart,
-      });
+      // const { nonce } = await instance.requestPaymentMethod();
+      // const { data } = await axios.get("http://localhost:8080/api/v1/product/braintree/payment", {
+      //   nonce,
+      //   cart,
+      // });
       setLoading(false);
       localStorage.removeItem("cart");
       setCart([]);
+      
+      alert("payment successful!");
       navigate("/dashboard/user/orders");
-      toast.success("Payment Completed Successfully ");
+      toast.success("Payment Completed Successfully!");
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -91,7 +93,13 @@ const CartPage = () => {
                   ? `You Have ${cart.length} items in your cart ${
                       auth?.token ? "" : "please login to checkout !"
                     }`
-                  : " Your Cart Is Empty"}
+                  : <>
+                  <p className="display-5">Your Cart Is Empty</p>
+                  <button className="btn btn-primary" onClick={() => navigate("/")}>
+                    Shop now...
+                  </button>
+                  </>
+                  }
               </p>
             </h1>
           </div>
@@ -113,7 +121,7 @@ const CartPage = () => {
                   <div className="col-md-4">
                     <p>{p.name}</p>
                     <p>{p.description.substring(0, 30)}</p>
-                    <p>Price : {p.price}</p>
+                    <p>Price : ${p.price}</p>
                   </div>
                   <div className="col-md-4 cart-remove-btn">
                     <button
